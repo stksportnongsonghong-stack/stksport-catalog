@@ -615,7 +615,23 @@ function ShirtModal({ initial, collars, prodTypes, fabricTypes, category, onSave
 
   const loadImg = (file: File) => {
     const r = new FileReader()
-    r.onload = (e) => { const d = e.target?.result as string; setImgPreview(d); setNewImgData(d) }
+    r.onload = (e) => {
+      const img = new Image()
+      img.onload = () => {
+        let { width: w, height: h } = img
+        const maxW = 1200, maxH = 1200
+        if (w > maxW || h > maxH) {
+          const ratio = Math.min(maxW / w, maxH / h)
+          w = Math.round(w * ratio); h = Math.round(h * ratio)
+        }
+        const canvas = document.createElement('canvas')
+        canvas.width = w; canvas.height = h
+        canvas.getContext('2d')!.drawImage(img, 0, 0, w, h)
+        const d = canvas.toDataURL('image/jpeg', 0.82)
+        setImgPreview(d); setNewImgData(d)
+      }
+      img.src = e.target?.result as string
+    }
     r.readAsDataURL(file)
   }
 
@@ -1146,8 +1162,27 @@ function ErrMsg({ msg }: { msg: string }) {
   return <div style={{ color: '#6699ff', fontSize: 12, marginBottom: 12, padding: '8px 12px', background: 'rgba(0,85,204,0.1)', borderRadius: 5, border: '1px solid rgba(0,85,204,0.25)' }}>{msg}</div>
 }
 
-function fileToBase64(file: File): Promise<string> {
-  return new Promise((res) => { const r = new FileReader(); r.onload = (e) => res(e.target?.result as string); r.readAsDataURL(file) })
+function fileToBase64(file: File, maxW = 1920, maxH = 1920, quality = 0.82): Promise<string> {
+  return new Promise((res) => {
+    const r = new FileReader()
+    r.onload = (e) => {
+      const img = new Image()
+      img.onload = () => {
+        let { width: w, height: h } = img
+        if (w > maxW || h > maxH) {
+          const ratio = Math.min(maxW / w, maxH / h)
+          w = Math.round(w * ratio)
+          h = Math.round(h * ratio)
+        }
+        const canvas = document.createElement('canvas')
+        canvas.width = w; canvas.height = h
+        canvas.getContext('2d')!.drawImage(img, 0, 0, w, h)
+        res(canvas.toDataURL('image/jpeg', quality))
+      }
+      img.src = e.target?.result as string
+    }
+    r.readAsDataURL(file)
+  })
 }
 
 /* ── Contact Modal ── */
