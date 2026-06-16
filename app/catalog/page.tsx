@@ -58,7 +58,7 @@ export default function CatalogPage() {
   const [showContactAdmin, setShowContactAdmin] = useState(false)
   const [showShopAdmin, setShowShopAdmin] = useState(false)
   const [showWelcome, setShowWelcome] = useState(true)
-  const [shopSettings, setShopSettings] = useState<ShopSettings>({ id: 'main', shop_name: 'STK Sport หนองสองห้อง', shop_subtitle: 'รวมแบบเสื้อและสินค้าทั้งหมด', logo_url: null })
+  const [shopSettings, setShopSettings] = useState<ShopSettings>({ id: 'main', shop_name: 'STK SPORT DESIGN', shop_subtitle: 'รับออกแบบและผลิตเสื้อผ้าพิมพ์ลาย', logo_url: null })
   const [toast, setToast] = useState<Toast | null>(null)
 
   const [dragId, setDragId] = useState<string | null>(null)
@@ -181,7 +181,7 @@ export default function CatalogPage() {
           <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
             <div style={{ width: 38, height: 38, background: 'linear-gradient(135deg,#0055cc,#003a99)', borderRadius: 8, display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 800, fontSize: 18, color: '#fff' }}>S</div>
             <div>
-              <div style={{ fontWeight: 700, fontSize: 15 }}>รวมแบบเสื้อและสินค้าทั้งหมด</div>
+              <div style={{ fontWeight: 700, fontSize: 15 }}>รับออกแบบและผลิตเสื้อผ้าพิมพ์ลาย</div>
               <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
                 <span style={{ fontSize: 9, color: 'rgba(255,255,255,0.22)', letterSpacing: 2 }}>SHIRT CATALOG</span>
                 <span style={{ fontSize: 9, color: '#3d9a3d', display: 'flex', alignItems: 'center', gap: 3 }}>
@@ -327,7 +327,7 @@ export default function CatalogPage() {
       )}
 
       <div style={{ borderTop: '1px solid rgba(255,255,255,0.05)', padding: '16px 24px', textAlign: 'center', fontSize: 10, color: 'rgba(255,255,255,0.13)' }}>
-        STK Sport หนองสองห้อง © 2025 — Powered by Supabase + Cloudflare
+        STK SPORT DESIGN © 2025 — Powered by Supabase + Cloudflare
       </div>
 
       {/* Modals */}
@@ -1371,7 +1371,7 @@ function PriceCalculator({ shirts, collars, promotions, shippingRules, initShirt
   const grandTotal = subtotal + shippingPrice
 
   const summaryLines = [
-    '🧾 สนใจสั่งซื้อครับ — STK Sport หนองสองห้อง',
+    '🧾 สนใจสั่งซื้อครับ — STK SPORT DESIGN',
     '─────────────────────',
     !useCollar && selectedShirt ? ('แบบ: ' + (selectedShirt?.name || '') + ' (฿' + shirtPrice.toLocaleString() + '/ตัว)') : null,
     useCollar && collar ? ('คอเสื้อ: ' + collar.name + ' (฿' + collarPrice.toLocaleString() + '/ตัว)') : null,
@@ -1408,7 +1408,7 @@ function PriceCalculator({ shirts, collars, promotions, shippingRules, initShirt
     // title
     ctx.fillStyle = '#fff'
     ctx.font = 'bold 16px sans-serif'
-    ctx.fillText('📋 สรุปราคาเบื้องต้น — STK Sport หนองสองห้อง', pad, 36)
+    ctx.fillText('📋 สรุปราคาเบื้องต้น — STK SPORT DESIGN', pad, 36)
 
     // summary lines
     let y = titleH + pad + 16
@@ -1855,10 +1855,10 @@ function WelcomeModal({ shopSettings, onBrowse, onAdmin }: {
         </div>
         {/* Name */}
         <div style={{ fontWeight: 800, fontSize: 22, color: '#fff', marginBottom: 8 }}>
-          {shopSettings.shop_name || 'STK Sport หนองสองห้อง'}
+          {shopSettings.shop_name || 'STK SPORT DESIGN'}
         </div>
         <div style={{ fontSize: 13, color: 'rgba(255,255,255,0.45)', marginBottom: 28 }}>
-          {shopSettings.shop_subtitle || 'รวมแบบเสื้อและสินค้าทั้งหมด'}
+          {shopSettings.shop_subtitle || 'รับออกแบบและผลิตเสื้อผ้าพิมพ์ลาย'}
         </div>
         {/* Buttons */}
         <button onClick={onBrowse}
@@ -1951,7 +1951,7 @@ function ShopAdminModal({ shopSettings, setShopSettings, notify, onClose }: {
           {/* Subtitle */}
           <div>
             <div className="section-label">คำอธิบายใต้ชื่อร้าน</div>
-            <input style={inp} value={subtitle} onChange={e => setSubtitle(e.target.value)} placeholder="รวมแบบเสื้อและสินค้าทั้งหมด" />
+            <input style={inp} value={subtitle} onChange={e => setSubtitle(e.target.value)} placeholder="รับออกแบบและผลิตเสื้อผ้าพิมพ์ลาย" />
           </div>
 
           {/* Preview */}

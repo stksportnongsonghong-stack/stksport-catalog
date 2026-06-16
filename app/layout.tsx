@@ -2,8 +2,8 @@ import type { Metadata, Viewport } from 'next'
 import './globals.css'
 
 export const metadata: Metadata = {
-  title: 'STK Sport หนองสองห้อง — รวมแบบเสื้อและสินค้าทั้งหมด',
-  description: 'STK Sport หนองสองห้อง — ระบบจัดการแบบเสื้อ',
+  title: 'STK SPORT DESIGN — รับออกแบบและผลิตเสื้อผ้าพิมพ์ลาย',
+  description: 'STK SPORT DESIGN — รับออกแบบและผลิตเสื้อผ้าพิมพ์ลาย',
 }
 
 export const viewport: Viewport = {
