@@ -181,7 +181,7 @@ export default function CatalogPage() {
           <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
             <div style={{ width: 38, height: 38, background: 'linear-gradient(135deg,#0055cc,#003a99)', borderRadius: 8, display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 800, fontSize: 18, color: '#fff' }}>S</div>
             <div>
-              <div style={{ fontWeight: 700, fontSize: 15 }}>รับออกแบบและผลิตเสื้อผ้าพิมพ์ลาย</div>
+              <div style={{ fontWeight: 700, fontSize: 15 }}>STK SPORT DESIGN รับออกแบบและผลิตเสื้อผ้าพิมพ์ลาย</div>
               <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
                 <span style={{ fontSize: 9, color: 'rgba(255,255,255,0.22)', letterSpacing: 2 }}>STK SPORT DESIGN</span>
                 <span style={{ fontSize: 9, color: '#3d9a3d', display: 'flex', alignItems: 'center', gap: 3 }}>
