@@ -57,7 +57,7 @@ export default function ExportPage() {
   const [title, setTitle] = useState('คอเสื้อและสินค้าทั้งหมด')
   const [subtitle, setSubtitle] = useState('Collar and All Product.')
   const [brandText, setBrandText] = useState('FB : เสื้อกีฬาพิมพ์ลาย EVO SPORT ขอนแก่น')
-  const [accentColor, setAccentColor] = useState('#cc0000')
+  const [accentColor, setAccentColor] = useState('#0055cc')
   const [bgColor, setBgColor] = useState('#0a0a0a')
   const [layoutMode, setLayoutMode] = useState('auto')
   const [sizeId, setSizeId] = useState('9:16')
@@ -262,19 +262,19 @@ export default function ExportPage() {
   // ── Login gate ──
   if (!adminUser) return (
     <div style={{ minHeight: '100vh', background: '#0a0a0a', display: 'flex', alignItems: 'center', justifyContent: 'center', fontFamily: "'Noto Sans Thai','Sarabun',sans-serif" }}>
-      <style>{`@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@400;500;600;700&display=swap'); *{box-sizing:border-box;margin:0;padding:0} .inp{background:#1a1a1a;border:1px solid rgba(255,255,255,0.13);color:#f5f5f5;padding:10px 12px;border-radius:5px;font-family:inherit;font-size:14px;width:100%;display:block;margin-bottom:12px} .inp:focus{outline:none;border-color:#c00}`}</style>
+      <style>{`@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@400;500;600;700&display=swap'); *{box-sizing:border-box;margin:0;padding:0} .inp{background:#1a1a1a;border:1px solid rgba(255,255,255,0.13);color:#f5f5f5;padding:10px 12px;border-radius:5px;font-family:inherit;font-size:14px;width:100%;display:block;margin-bottom:12px} .inp:focus{outline:none;border-color:#0055cc}`}</style>
       <div style={{ background: '#111', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 14, padding: '36px 32px', width: '100%', maxWidth: 380 }}>
         <div style={{ textAlign: 'center', marginBottom: 24 }}>
-          <div style={{ width: 48, height: 48, background: 'linear-gradient(135deg,#c00,#800)', borderRadius: 10, display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 800, fontSize: 22, color: '#fff', margin: '0 auto 14px' }}>S</div>
-          <div style={{ display: 'inline-block', background: '#c00', fontSize: 9, padding: '2px 10px', borderRadius: 3, fontWeight: 700, letterSpacing: 2, color: '#fff', marginBottom: 10 }}>ADMIN ONLY</div>
+          <div style={{ width: 48, height: 48, background: 'linear-gradient(135deg,#0055cc,#003a99)', borderRadius: 10, display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 800, fontSize: 22, color: '#fff', margin: '0 auto 14px' }}>S</div>
+          <div style={{ display: 'inline-block', background: '#0055cc', fontSize: 9, padding: '2px 10px', borderRadius: 3, fontWeight: 700, letterSpacing: 2, color: '#fff', marginBottom: 10 }}>ADMIN ONLY</div>
           <div style={{ fontWeight: 700, fontSize: 18, color: '#fff' }}>Export Tool</div>
           <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.3)', marginTop: 4 }}>เข้าสู่ระบบ Admin เพื่อใช้งาน</div>
         </div>
         <input className="inp" placeholder="Name ID เช่น ceo edit00" value={loginId} onChange={e => setLoginId(e.target.value)} />
         <input className="inp" type="password" placeholder="Password" value={loginPw} onChange={e => setLoginPw(e.target.value)}
           onKeyDown={e => { if (e.key === 'Enter') { if (ADMIN_ACCOUNTS[loginId] === loginPw) { setAdminUser(loginId); setLoginErr('') } else setLoginErr('ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง') } }} />
-        {loginErr && <div style={{ color: '#ff6060', fontSize: 12, marginBottom: 12, padding: '8px 12px', background: 'rgba(200,0,0,0.1)', borderRadius: 5 }}>{loginErr}</div>}
-        <button style={{ width: '100%', background: '#c00', color: '#fff', border: 'none', padding: '11px', borderRadius: 5, cursor: 'pointer', fontFamily: 'inherit', fontWeight: 700, fontSize: 14 }}
+        {loginErr && <div style={{ color: '#6699ff', fontSize: 12, marginBottom: 12, padding: '8px 12px', background: 'rgba(0,85,204,0.1)', borderRadius: 5 }}>{loginErr}</div>}
+        <button style={{ width: '100%', background: '#0055cc', color: '#fff', border: 'none', padding: '11px', borderRadius: 5, cursor: 'pointer', fontFamily: 'inherit', fontWeight: 700, fontSize: 14 }}
           onClick={() => { if (ADMIN_ACCOUNTS[loginId] === loginPw) { setAdminUser(loginId); setLoginErr('') } else setLoginErr('ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง') }}>
           เข้าสู่ระบบ
         </button>
@@ -290,26 +290,26 @@ export default function ExportPage() {
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Thai:wght@400;500;600;700&display=swap');
         *{box-sizing:border-box;margin:0;padding:0}
-        ::-webkit-scrollbar{width:4px}::-webkit-scrollbar-thumb{background:#c00;border-radius:2px}
+        ::-webkit-scrollbar{width:4px}::-webkit-scrollbar-thumb{background:#0055cc;border-radius:2px}
         .tab{padding:10px 14px;cursor:pointer;font-size:12px;font-weight:500;color:rgba(255,255,255,0.45);border-bottom:2px solid transparent;transition:all .18s;white-space:nowrap}
-        .tab:hover{color:#fff}.tab.on{color:#fff;border-bottom-color:#c00}
+        .tab:hover{color:#fff}.tab.on{color:#fff;border-bottom-color:#0055cc}
         .card{background:#161616;border:1px solid rgba(255,255,255,0.08);border-radius:10px;overflow:hidden;cursor:pointer;transition:all .2s;position:relative}
-        .card:hover{border-color:rgba(200,0,0,0.5);transform:translateY(-2px)}
-        .card.sel{border-color:#c00;box-shadow:0 0 0 2px rgba(200,0,0,0.25)}
+        .card:hover{border-color:rgba(0,85,204,0.5);transform:translateY(-2px)}
+        .card.sel{border-color:#0055cc;box-shadow:0 0 0 2px rgba(0,85,204,0.25)}
         .chk{position:absolute;top:8px;right:8px;width:22px;height:22px;border-radius:50%;border:2px solid rgba(255,255,255,0.35);background:rgba(0,0,0,0.55);display:flex;align-items:center;justify-content:center;font-size:11px;transition:all .18s;z-index:2}
-        .card.sel .chk{background:#c00;border-color:#c00}
+        .card.sel .chk{background:#0055cc;border-color:#0055cc}
         .inp{background:#1a1a1a;border:1px solid rgba(255,255,255,0.13);color:#f5f5f5;padding:7px 10px;border-radius:5px;font-family:inherit;font-size:12px;width:100%}
-        .inp:focus{outline:none;border-color:#c00}
-        .btn-r{background:#c00;color:#fff;border:none;padding:10px 18px;border-radius:5px;cursor:pointer;font-family:inherit;font-weight:700;font-size:13px;transition:background .18s}
+        .inp:focus{outline:none;border-color:#0055cc}
+        .btn-r{background:#0055cc;color:#fff;border:none;padding:10px 18px;border-radius:5px;cursor:pointer;font-family:inherit;font-weight:700;font-size:13px;transition:background .18s}
         .btn-r:hover{background:#e00}.btn-r:disabled{opacity:.5;cursor:not-allowed}
         .btn-o{background:transparent;color:#f5f5f5;border:1px solid rgba(255,255,255,0.2);padding:6px 12px;border-radius:5px;cursor:pointer;font-family:inherit;font-size:11px;transition:all .18s}
-        .btn-o:hover{border-color:#c00;color:#c00}
+        .btn-o:hover{border-color:#0055cc;color:#0055cc}
         .pill{padding:5px 10px;border-radius:20px;cursor:pointer;font-size:11px;font-weight:500;border:1px solid rgba(255,255,255,0.15);color:rgba(255,255,255,0.5);transition:all .18s;background:transparent;font-family:inherit}
-        .pill:hover{border-color:#c00;color:#c00}.pill.on{background:#c00;border-color:#c00;color:#fff}
+        .pill:hover{border-color:#0055cc;color:#0055cc}.pill.on{background:#0055cc;border-color:#0055cc;color:#fff}
         .grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
         .sl{font-size:10px;color:rgba(255,255,255,0.3);letter-spacing:1.2px;text-transform:uppercase;margin-bottom:6px}
         .tog{display:flex;align-items:center;gap:8px;cursor:pointer;font-size:12px;color:rgba(255,255,255,0.6)}
-        input[type=checkbox]{accent-color:#c00;width:14px;height:14px;cursor:pointer}
+        input[type=checkbox]{accent-color:#0055cc;width:14px;height:14px;cursor:pointer}
         @media(max-width:900px){.grid{grid-template-columns:repeat(3,1fr)}.main-layout{grid-template-columns:1fr!important}}
         @media(max-width:600px){.grid{grid-template-columns:repeat(2,1fr)}}
       `}</style>
@@ -321,9 +321,9 @@ export default function ExportPage() {
             {/* ✅ ปุ่มกลับ — ส่ง admin param กลับไปด้วย ไม่ logout */}
             <span onClick={() => goBack(adminUser)} style={{ color: 'rgba(255,255,255,0.4)', fontSize: 12, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 4 }}>← กลับ</span>
             <div style={{ width: 1, height: 20, background: 'rgba(255,255,255,0.1)' }} />
-            <div style={{ width: 28, height: 28, background: 'linear-gradient(135deg,#c00,#800)', borderRadius: 6, display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 800, fontSize: 13, color: '#fff' }}>S</div>
+            <div style={{ width: 28, height: 28, background: 'linear-gradient(135deg,#0055cc,#003a99)', borderRadius: 6, display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 800, fontSize: 13, color: '#fff' }}>S</div>
             <div style={{ fontWeight: 700, fontSize: 14 }}>Export Tool</div>
-            <span style={{ background: 'linear-gradient(90deg,#c00,#800)', fontSize: 10, padding: '2px 8px', borderRadius: 3, fontWeight: 700, letterSpacing: 1, color: '#fff' }}>ADMIN</span>
+            <span style={{ background: 'linear-gradient(90deg,#0055cc,#003a99)', fontSize: 10, padding: '2px 8px', borderRadius: 3, fontWeight: 700, letterSpacing: 1, color: '#fff' }}>ADMIN</span>
           </div>
           <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
             <span style={{ fontSize: 11, color: 'rgba(255,255,255,0.3)' }}>{adminUser}</span>
@@ -343,7 +343,7 @@ export default function ExportPage() {
                 {TABS.map(t => (
                   <div key={t.id} className={`tab${tab === t.id ? ' on' : ''}`} onClick={() => setTab(t.id)}>
                     {t.label}
-                    {t.badge && <span style={{ background: '#c00', color: '#fff', fontSize: 9, padding: '1px 5px', borderRadius: 8, fontWeight: 700, marginLeft: 5 }}>{t.badge}</span>}
+                    {t.badge && <span style={{ background: '#0055cc', color: '#fff', fontSize: 9, padding: '1px 5px', borderRadius: 8, fontWeight: 700, marginLeft: 5 }}>{t.badge}</span>}
                   </div>
                 ))}
                 <div style={{ marginLeft: 'auto', display: 'flex', alignItems: 'center', gap: 6, padding: '0 10px' }}>
@@ -356,7 +356,7 @@ export default function ExportPage() {
             <div style={{ display: 'flex', alignItems: 'center', gap: 12, marginBottom: 12, fontSize: 11, color: 'rgba(255,255,255,0.35)' }}>
               <span>ทั้งหมด <b style={{ color: '#fff' }}>{shirts.length}</b></span>
               <span style={{ color: 'rgba(255,255,255,0.15)' }}>|</span>
-              <span>เลือก <b style={{ color: '#c00' }}>{selected.size}</b></span>
+              <span>เลือก <b style={{ color: '#0055cc' }}>{selected.size}</b></span>
               {selected.size > 0 && <span style={{ color: 'rgba(255,255,255,0.3)' }}>{getCols(selected.size)} คอลัมน์ · {Math.ceil(selected.size / getCols(selected.size))} แถว</span>}
             </div>
 
