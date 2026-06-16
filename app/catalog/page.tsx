@@ -183,7 +183,7 @@ export default function CatalogPage() {
             <div>
               <div style={{ fontWeight: 700, fontSize: 15 }}>รับออกแบบและผลิตเสื้อผ้าพิมพ์ลาย</div>
               <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-                <span style={{ fontSize: 9, color: 'rgba(255,255,255,0.22)', letterSpacing: 2 }}>SHIRT CATALOG</span>
+                <span style={{ fontSize: 9, color: 'rgba(255,255,255,0.22)', letterSpacing: 2 }}>STK SPORT DESIGN</span>
                 <span style={{ fontSize: 9, color: '#3d9a3d', display: 'flex', alignItems: 'center', gap: 3 }}>
                   <span style={{ width: 5, height: 5, borderRadius: '50%', background: '#3d9a3d', display: 'inline-block' }} />
                   Supabase Connected
