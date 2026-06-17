@@ -648,12 +648,6 @@ function ShirtCard({ shirt, isAdmin, canDrag, isDragging, isDragOver, shirtTypes
               <button className="btn-outline sm" style={{ flex: 1 }} onClick={onDupe}>⧉ คัดลอก</button>
               <button className="btn-ghost" style={{ flex: 1 }} onClick={onDelete}>✕</button>
             </div>
-            {onMove && (shirt.category === 'new' || shirt.category === 'other') && (
-              <button className="btn-ghost" style={{ width: '100%', fontSize: 11, color: '#facc15', borderColor: 'rgba(250,204,21,0.3)' }}
-                onClick={() => onMove(shirt.category === 'new' ? 'other' : 'new')}>
-                {shirt.category === 'new' ? '↩ ย้ายไป แบบเสื้ออื่นๆ' : '↪ ย้ายไป แบบเสื้อใหม่'}
-              </button>
-            )}
           </div>
         )}
       </div>
