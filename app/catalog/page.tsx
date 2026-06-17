@@ -45,7 +45,7 @@ export default function CatalogPage() {
   const [prodTypes, setProdTypes] = useState<ProductType[]>([])
   const [fabricTypes, setFabricTypes] = useState<FabricType[]>([])
   const [shirtTypes, setShirtTypes] = useState<ShirtType[]>([])
-  const [selectedShirtType, setSelectedShirtType] = useState<string>('football')
+  const [selectedShirtType, setSelectedShirtType] = useState<string>('all')
   const [promotions, setPromotions] = useState<Promotion[]>([])
   const [shippingRules, setShippingRules] = useState<ShippingRule[]>([])
   const [customers, setCustomers] = useState<Customer[]>([])
