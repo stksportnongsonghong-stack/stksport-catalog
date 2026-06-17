@@ -274,14 +274,14 @@ export default function CatalogPage() {
                 {/* Sidebar ประเภทเสื้อ */}
                 <div style={{ width: 168, flexShrink: 0, display: 'flex', flexDirection: 'column', gap: 4 }}>
                   <button onClick={() => setSelectedShirtType('all')}
-                    style={{ padding: '8px 12px', borderRadius: 8, fontSize: 12, fontWeight: 600, cursor: 'pointer', border: '1.5px solid', textAlign: 'left', borderColor: selectedShirtType === 'all' ? '#0055cc' : 'rgba(255,255,255,0.1)', background: selectedShirtType === 'all' ? '#0055cc' : 'rgba(255,255,255,0.04)', color: selectedShirtType === 'all' ? '#fff' : 'rgba(255,255,255,0.65)', transition: 'all .18s' }}>
+                    style={{ padding: '8px 12px', borderRadius: 8, fontSize: 12, fontWeight: 600, cursor: 'pointer', border: '1.5px solid', textAlign: 'left', borderColor: selectedShirtType === 'all' ? '#0055cc' : '#ddd', background: selectedShirtType === 'all' ? '#0055cc' : '#fff', color: selectedShirtType === 'all' ? '#fff' : '#222', transition: 'all .18s' }}>
                     🗂 ทั้งหมด ({shirts.filter(s => s.category === activeNav).length})
                   </button>
                   {shirtTypes.map(t => {
                     const count = shirts.filter(s => s.category === activeNav && s.shirt_type === t.slug).length
                     return (
                       <button key={t.id} onClick={() => setSelectedShirtType(t.slug)}
-                        style={{ padding: '8px 12px', borderRadius: 8, fontSize: 12, fontWeight: 600, cursor: 'pointer', border: '1.5px solid', textAlign: 'left', borderColor: selectedShirtType === t.slug ? '#0055cc' : 'rgba(255,255,255,0.1)', background: selectedShirtType === t.slug ? '#0055cc' : 'rgba(255,255,255,0.04)', color: selectedShirtType === t.slug ? '#fff' : 'rgba(255,255,255,0.65)', transition: 'all .18s' }}>
+                        style={{ padding: '8px 12px', borderRadius: 8, fontSize: 12, fontWeight: 600, cursor: 'pointer', border: '1.5px solid', textAlign: 'left', borderColor: selectedShirtType === t.slug ? '#0055cc' : '#ddd', background: selectedShirtType === t.slug ? '#0055cc' : '#fff', color: selectedShirtType === t.slug ? '#fff' : '#222', transition: 'all .18s' }}>
                         {t.icon} {t.name} ({count})
                       </button>
                     )
