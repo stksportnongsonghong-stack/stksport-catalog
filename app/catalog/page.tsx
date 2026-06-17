@@ -45,7 +45,7 @@ export default function CatalogPage() {
   const [prodTypes, setProdTypes] = useState<ProductType[]>([])
   const [fabricTypes, setFabricTypes] = useState<FabricType[]>([])
   const [shirtTypes, setShirtTypes] = useState<ShirtType[]>([])
-  const [selectedShirtType, setSelectedShirtType] = useState<string>('all')
+  const [selectedShirtType, setSelectedShirtType] = useState<string>('football')
   const [promotions, setPromotions] = useState<Promotion[]>([])
   const [shippingRules, setShippingRules] = useState<ShippingRule[]>([])
   const [customers, setCustomers] = useState<Customer[]>([])
@@ -268,40 +268,69 @@ export default function CatalogPage() {
           )}
 
           <div style={{ maxWidth: 1280, margin: '0 auto', padding: '28px 20px' }}>
-            {/* Filter chips ประเภทเสื้อ */}
-            {(activeNav === 'new' || activeNav === 'other') && shirtTypes.length > 0 && (
-              <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', marginBottom: 18, overflowX: 'auto', paddingBottom: 4 }}>
-                <button
-                  onClick={() => setSelectedShirtType('all')}
-                  style={{ padding: '6px 14px', borderRadius: 20, fontSize: 12, fontWeight: 600, cursor: 'pointer', border: '1.5px solid', borderColor: selectedShirtType === 'all' ? '#0055cc' : '#ddd', background: selectedShirtType === 'all' ? '#0055cc' : '#fff', color: selectedShirtType === 'all' ? '#fff' : '#222', whiteSpace: 'nowrap', transition: 'all .18s' }}>
-                  ทั้งหมด ({shirts.filter(s => s.category === activeNav).length})
-                </button>
-                {shirtTypes.map(t => {
-                  const count = shirts.filter(s => s.category === activeNav && s.shirt_type === t.slug).length
-                  return (
-                    <button key={t.id}
-                      onClick={() => setSelectedShirtType(t.slug)}
-                      style={{ padding: '6px 14px', borderRadius: 20, fontSize: 12, fontWeight: 600, cursor: 'pointer', border: '1.5px solid', borderColor: selectedShirtType === t.slug ? '#0055cc' : '#ddd', background: selectedShirtType === t.slug ? '#0055cc' : '#fff', color: selectedShirtType === t.slug ? '#fff' : '#222', whiteSpace: 'nowrap', transition: 'all .18s' }}>
-                      {t.icon} {t.name} ({count})
-                    </button>
-                  )
-                })}
-              </div>
-            )}
-            {canDrag && (
-              <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.35)', marginBottom: 14, display: 'flex', alignItems: 'center', gap: 6 }}>
-                <span style={{ fontSize: 14 }}>☰</span> กดค้างที่การ์ดแล้วลากเพื่อเรียงลำดับ — บันทึกอัตโนมัติ
-              </div>
-            )}
-            {filtered.length === 0 ? (
-              <div style={{ textAlign: 'center', padding: '70px 20px' }}>
-                <div style={{ fontSize: 50, marginBottom: 16, opacity: .2 }}>👕</div>
-                <div style={{ color: 'rgba(255,255,255,0.22)', fontSize: 14, marginBottom: adminUser ? 18 : 0 }}>ยังไม่มีสินค้าในหมวดนี้</div>
-                {adminUser && (
-                  <button className="btn-red" style={{ padding: '10px 30px' }} onClick={() => setShowAdd(true)}>
-                    {activeNav === 'new' ? '+ เพิ่มแบบเสื้อแรก' : activeNav === 'collar' ? '+ เพิ่มคอเสื้อ' : activeNav === 'promotion' ? '+ เพิ่มโปรโมชั่น' : activeNav === 'other' ? '+ เพิ่มสินค้าแรก' : activeNav === 'fabric' ? '+ เพิ่มเนื้อผ้า' : activeNav === 'photo' ? '+ เพิ่มรูปภาพ' : '+ เพิ่มสินค้าใหม่'}
+            {(activeNav === 'new' || activeNav === 'other') && shirtTypes.length > 0 ? (
+              /* Layout: sidebar แนวตั้งซ้าย + grid ขวา */
+              <div style={{ display: 'flex', gap: 16, alignItems: 'flex-start' }}>
+                {/* Sidebar ประเภทเสื้อ */}
+                <div style={{ width: 168, flexShrink: 0, display: 'flex', flexDirection: 'column', gap: 4 }}>
+                  <button onClick={() => setSelectedShirtType('all')}
+                    style={{ padding: '8px 12px', borderRadius: 8, fontSize: 12, fontWeight: 600, cursor: 'pointer', border: '1.5px solid', textAlign: 'left', borderColor: selectedShirtType === 'all' ? '#0055cc' : 'rgba(255,255,255,0.1)', background: selectedShirtType === 'all' ? '#0055cc' : 'rgba(255,255,255,0.04)', color: selectedShirtType === 'all' ? '#fff' : 'rgba(255,255,255,0.65)', transition: 'all .18s' }}>
+                    🗂 ทั้งหมด ({shirts.filter(s => s.category === activeNav).length})
                   </button>
-                )}
+                  {shirtTypes.map(t => {
+                    const count = shirts.filter(s => s.category === activeNav && s.shirt_type === t.slug).length
+                    return (
+                      <button key={t.id} onClick={() => setSelectedShirtType(t.slug)}
+                        style={{ padding: '8px 12px', borderRadius: 8, fontSize: 12, fontWeight: 600, cursor: 'pointer', border: '1.5px solid', textAlign: 'left', borderColor: selectedShirtType === t.slug ? '#0055cc' : 'rgba(255,255,255,0.1)', background: selectedShirtType === t.slug ? '#0055cc' : 'rgba(255,255,255,0.04)', color: selectedShirtType === t.slug ? '#fff' : 'rgba(255,255,255,0.65)', transition: 'all .18s' }}>
+                        {t.icon} {t.name} ({count})
+                      </button>
+                    )
+                  })}
+                </div>
+                {/* Grid เสื้อ */}
+                <div style={{ flex: 1, minWidth: 0 }}>
+                  {canDrag && (
+                    <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.35)', marginBottom: 14, display: 'flex', alignItems: 'center', gap: 6 }}>
+                      <span style={{ fontSize: 14 }}>☰</span> กดค้างที่การ์ดแล้วลากเพื่อเรียงลำดับ — บันทึกอัตโนมัติ
+                    </div>
+                  )}
+                  {filtered.length === 0 ? (
+                    <div style={{ textAlign: 'center', padding: '70px 20px' }}>
+                      <div style={{ fontSize: 50, marginBottom: 16, opacity: .2 }}>👕</div>
+                      <div style={{ color: 'rgba(255,255,255,0.22)', fontSize: 14, marginBottom: adminUser ? 18 : 0 }}>ยังไม่มีสินค้าในหมวดนี้</div>
+                      {adminUser && <button className="btn-red" style={{ padding: '10px 30px' }} onClick={() => setShowAdd(true)}>+ เพิ่มแบบเสื้อแรก</button>}
+                    </div>
+                  ) : (
+                    <div className="grid-shirts">
+                      {filtered.map((s) => (
+                        <ShirtCard key={s.id} shirt={s} isAdmin={!!adminUser}
+                          isDragging={dragId === s.id} isDragOver={dragOverId === s.id} canDrag={canDrag} shirtTypes={shirtTypes}
+                          onDragStart={() => handleDragStart(s.id)} onDragOver={() => handleDragOver(s.id)} onDragEnd={handleDragEnd}
+                          onEdit={() => setEditShirt(s)}
+                          onDelete={async () => {
+                            await logDeletion({ table_name: 'shirts', record_id: s.id, record_name: s.name, image_url: s.image_url, deleted_by: adminUser || 'admin' })
+                            await db.from('shirts').delete().eq('id', s.id)
+                            setShirts((prev) => prev.filter((x) => x.id !== s.id))
+                            notify('ลบสินค้าแล้ว', 'err')
+                          }}
+                          onDupe={async () => {
+                            const { id: _id, created_at: _ca, updated_at: _ua, ...rest } = s
+                            const { data } = await db.from('shirts').insert([{ ...rest, name: s.name + ' (สำเนา)' }]).select().single()
+                            if (data) { setShirts((prev) => [data, ...prev]); notify('คัดลอกสำเร็จ') }
+                          }}
+                          onMove={async (newCat) => {
+                            await db.from('shirts').update({ category: newCat }).eq('id', s.id)
+                            setShirts(prev => prev.map(x => x.id === s.id ? { ...x, category: newCat } : x))
+                            notify(newCat === 'new' ? '↪ ย้ายไปแบบเสื้อใหม่แล้ว' : '↩ ย้ายไปแบบเสื้ออื่นๆแล้ว')
+                          }}
+                          onContact={() => setShowContact(true)}
+                          onCalculate={(id: string) => { setCalcShirtId(id); setShowCalculator(true) }}
+                          onImageClick={(url: string) => setLightboxUrl(url)}
+                        />
+                      ))}
+                    </div>
+                  )}
+                </div>
               </div>
             ) : (activeNav === 'photo' || activeNav === 'promotion') ? (
               <div style={{ columns: '2 160px', gap: 12 }}>
@@ -319,34 +348,53 @@ export default function CatalogPage() {
                 ))}
               </div>
             ) : (
-              <div className="grid-shirts">
-                {filtered.map((s) => (
-                  <ShirtCard key={s.id} shirt={s} isAdmin={!!adminUser}
-                    isDragging={dragId === s.id}
-                    isDragOver={dragOverId === s.id}
-                    canDrag={canDrag}
-                    shirtTypes={shirtTypes}
-                    onDragStart={() => handleDragStart(s.id)}
-                    onDragOver={() => handleDragOver(s.id)}
-                    onDragEnd={handleDragEnd}
-                    onEdit={() => setEditShirt(s)}
-                    onDelete={async () => {
-                      await logDeletion({ table_name: 'shirts', record_id: s.id, record_name: s.name, image_url: s.image_url, deleted_by: adminUser || 'admin' })
-                      await db.from('shirts').delete().eq('id', s.id)
-                      setShirts((prev) => prev.filter((x) => x.id !== s.id))
-                      notify('ลบสินค้าแล้ว', 'err')
-                    }}
-                    onDupe={async () => {
-                      const { id: _id, created_at: _ca, updated_at: _ua, ...rest } = s
-                      const { data } = await db.from('shirts').insert([{ ...rest, name: s.name + ' (สำเนา)' }]).select().single()
-                      if (data) { setShirts((prev) => [data, ...prev]); notify('คัดลอกสำเร็จ') }
-                    }}
-                    onContact={() => setShowContact(true)}
-                    onCalculate={(id: string) => { setCalcShirtId(id); setShowCalculator(true) }}
-                    onImageClick={(url: string) => setLightboxUrl(url)}
-                  />
-                ))}
-              </div>
+              <>
+                {canDrag && (
+                  <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.35)', marginBottom: 14, display: 'flex', alignItems: 'center', gap: 6 }}>
+                    <span style={{ fontSize: 14 }}>☰</span> กดค้างที่การ์ดแล้วลากเพื่อเรียงลำดับ — บันทึกอัตโนมัติ
+                  </div>
+                )}
+                {filtered.length === 0 ? (
+                  <div style={{ textAlign: 'center', padding: '70px 20px' }}>
+                    <div style={{ fontSize: 50, marginBottom: 16, opacity: .2 }}>👕</div>
+                    <div style={{ color: 'rgba(255,255,255,0.22)', fontSize: 14, marginBottom: adminUser ? 18 : 0 }}>ยังไม่มีสินค้าในหมวดนี้</div>
+                    {adminUser && (
+                      <button className="btn-red" style={{ padding: '10px 30px' }} onClick={() => setShowAdd(true)}>
+                        {activeNav === 'collar' ? '+ เพิ่มคอเสื้อ' : activeNav === 'fabric' ? '+ เพิ่มเนื้อผ้า' : '+ เพิ่มสินค้าใหม่'}
+                      </button>
+                    )}
+                  </div>
+                ) : (
+                  <div className="grid-shirts">
+                    {filtered.map((s) => (
+                      <ShirtCard key={s.id} shirt={s} isAdmin={!!adminUser}
+                        isDragging={dragId === s.id} isDragOver={dragOverId === s.id} canDrag={canDrag} shirtTypes={shirtTypes}
+                        onDragStart={() => handleDragStart(s.id)} onDragOver={() => handleDragOver(s.id)} onDragEnd={handleDragEnd}
+                        onEdit={() => setEditShirt(s)}
+                        onDelete={async () => {
+                          await logDeletion({ table_name: 'shirts', record_id: s.id, record_name: s.name, image_url: s.image_url, deleted_by: adminUser || 'admin' })
+                          await db.from('shirts').delete().eq('id', s.id)
+                          setShirts((prev) => prev.filter((x) => x.id !== s.id))
+                          notify('ลบสินค้าแล้ว', 'err')
+                        }}
+                        onDupe={async () => {
+                          const { id: _id, created_at: _ca, updated_at: _ua, ...rest } = s
+                          const { data } = await db.from('shirts').insert([{ ...rest, name: s.name + ' (สำเนา)' }]).select().single()
+                          if (data) { setShirts((prev) => [data, ...prev]); notify('คัดลอกสำเร็จ') }
+                        }}
+                        onMove={async (newCat) => {
+                          await db.from('shirts').update({ category: newCat }).eq('id', s.id)
+                          setShirts(prev => prev.map(x => x.id === s.id ? { ...x, category: newCat } : x))
+                          notify(newCat === 'new' ? '↪ ย้ายไปแบบเสื้อใหม่แล้ว' : '↩ ย้ายไปแบบเสื้ออื่นๆแล้ว')
+                        }}
+                        onContact={() => setShowContact(true)}
+                        onCalculate={(id: string) => { setCalcShirtId(id); setShowCalculator(true) }}
+                        onImageClick={(url: string) => setLightboxUrl(url)}
+                      />
+                    ))}
+                  </div>
+                )}
+              </>
             )}
           </div>
         </>
@@ -500,12 +548,13 @@ function BannerSection({ banners, setBanners, isAdmin, notify }: {
 }
 
 /* ── Shirt Card ── */
-function ShirtCard({ shirt, isAdmin, canDrag, isDragging, isDragOver, shirtTypes, onDragStart, onDragOver, onDragEnd, onEdit, onDelete, onDupe, onContact, onCalculate, onImageClick }: {
+function ShirtCard({ shirt, isAdmin, canDrag, isDragging, isDragOver, shirtTypes, onDragStart, onDragOver, onDragEnd, onEdit, onDelete, onDupe, onMove, onContact, onCalculate, onImageClick }: {
   shirt: Shirt, isAdmin: boolean,
   canDrag?: boolean, isDragging?: boolean, isDragOver?: boolean,
   shirtTypes?: ShirtType[],
   onDragStart?: () => void, onDragOver?: () => void, onDragEnd?: () => void,
   onEdit: () => void, onDelete: () => void, onDupe: () => void,
+  onMove?: (newCategory: string) => void,
   onContact?: () => void, onCalculate?: (id: string) => void, onImageClick?: (url: string) => void
 }) {
   const touchTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
@@ -593,10 +642,18 @@ function ShirtCard({ shirt, isAdmin, canDrag, isDragging, isDragOver, shirtTypes
           </div>
         )}
         {isAdmin && (
-          <div style={{ display: 'flex', gap: 5, marginTop: 10 }}>
-            <button className="btn-outline sm" style={{ flex: 1 }} onClick={onEdit}>✏ แก้ไข</button>
-            <button className="btn-outline sm" style={{ flex: 1 }} onClick={onDupe}>⧉ คัดลอก</button>
-            <button className="btn-ghost" style={{ flex: 1 }} onClick={onDelete}>✕</button>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 5, marginTop: 10 }}>
+            <div style={{ display: 'flex', gap: 5 }}>
+              <button className="btn-outline sm" style={{ flex: 1 }} onClick={onEdit}>✏ แก้ไข</button>
+              <button className="btn-outline sm" style={{ flex: 1 }} onClick={onDupe}>⧉ คัดลอก</button>
+              <button className="btn-ghost" style={{ flex: 1 }} onClick={onDelete}>✕</button>
+            </div>
+            {onMove && (shirt.category === 'new' || shirt.category === 'other') && (
+              <button className="btn-ghost" style={{ width: '100%', fontSize: 11, color: '#facc15', borderColor: 'rgba(250,204,21,0.3)' }}
+                onClick={() => onMove(shirt.category === 'new' ? 'other' : 'new')}>
+                {shirt.category === 'new' ? '↩ ย้ายไป แบบเสื้ออื่นๆ' : '↪ ย้ายไป แบบเสื้อใหม่'}
+              </button>
+            )}
           </div>
         )}
       </div>
