@@ -6,6 +6,7 @@ import type { Shirt, Banner, Collar, ProductType, Customer } from '@/lib/supabas
 
 type ShopSettings = { id: string; shop_name: string; shop_subtitle: string; logo_url: string | null }
 type FabricType = { id: string; name: string; sort_order: number }
+type ShirtType = { id: string; name: string; slug: string; icon: string; sort_order: number }
 type Promotion = { id: string; name: string; is_active: boolean; min_qty: number; type: string; free_qty: number; discount_qty: number; discount_pct: number; discount_thb: number; sort_order: number }
 type ShippingRule = { id: string; name: string; min_qty: number; max_qty: number | null; price: number; sort_order: number }
 type CollarWithPrice = { id: string; name: string; price: number; sort_order: number }
@@ -43,6 +44,8 @@ export default function CatalogPage() {
   const [collars, setCollars] = useState<Collar[]>([])
   const [prodTypes, setProdTypes] = useState<ProductType[]>([])
   const [fabricTypes, setFabricTypes] = useState<FabricType[]>([])
+  const [shirtTypes, setShirtTypes] = useState<ShirtType[]>([])
+  const [selectedShirtType, setSelectedShirtType] = useState<string>('all')
   const [promotions, setPromotions] = useState<Promotion[]>([])
   const [shippingRules, setShippingRules] = useState<ShippingRule[]>([])
   const [customers, setCustomers] = useState<Customer[]>([])
@@ -81,7 +84,7 @@ export default function CatalogPage() {
 
   useEffect(() => {
     ;(async () => {
-      const [{ data: b }, { data: s }, { data: c }, { data: p }, { data: cu }, { data: ft }, { data: promo }, { data: ship }] =
+      const [{ data: b }, { data: s }, { data: c }, { data: p }, { data: cu }, { data: ft }, { data: promo }, { data: ship }, { data: st }] =
         await Promise.all([
           db.from('banners').select('*').order('sort_order'),
           db.from('shirts').select('*').order('sort_order').order('created_at', { ascending: false }),
@@ -91,6 +94,7 @@ export default function CatalogPage() {
           db.from('fabric_types').select('*').order('sort_order'),
           db.from('promotions').select('*').order('sort_order'),
           db.from('shipping_rules').select('*').order('sort_order'),
+          db.from('shirt_types').select('*').order('sort_order'),
         ])
       const { data: ss } = await db.from('shop_settings').select('*').eq('id', 'main').single()
       if (b) setBanners(b)
@@ -101,6 +105,7 @@ export default function CatalogPage() {
       if (ft) setFabricTypes(ft as FabricType[])
       if (promo) setPromotions(promo as Promotion[])
       if (ship) setShippingRules(ship as ShippingRule[])
+      if (st) setShirtTypes(st as ShirtType[])
       if (ss) setShopSettings(ss)
       setReady(true)
     })()
@@ -108,10 +113,10 @@ export default function CatalogPage() {
 
   const filtered = shirts.filter((s) => {
     if (activeNav === 'all') return s.category === 'new' || s.category === 'other'
-    if (activeNav === 'new') return s.category === 'new'
+    if (activeNav === 'new') return s.category === 'new' && (selectedShirtType === 'all' || s.shirt_type === selectedShirtType)
     if (activeNav === 'collar') return s.category === 'collar'
     if (activeNav === 'promotion') return s.is_promo
-    if (activeNav === 'other') return s.category === 'other'
+    if (activeNav === 'other') return s.category === 'other' && (selectedShirtType === 'all' || s.shirt_type === selectedShirtType)
     if (activeNav === 'fabric') return s.category === 'fabric'
     if (activeNav === 'photo') return s.category === 'photo'
     return true
@@ -227,7 +232,7 @@ export default function CatalogPage() {
           <div style={{ background: '#111', borderBottom: '1px solid rgba(255,255,255,0.06)', position: 'sticky', top: 0, zIndex: 100, overflowX: 'auto' }}>
             <div style={{ maxWidth: 1280, margin: '0 auto', display: 'flex', padding: '0 16px' }}>
               {NAV_ITEMS.map((n) => (
-                <div key={n.id} className={`nav-item${activeNav === n.id ? ' active' : ''}`} onClick={() => setActiveNav(n.id)}>
+                <div key={n.id} className={`nav-item${activeNav === n.id ? ' active' : ''}`} onClick={() => { setActiveNav(n.id); setSelectedShirtType('all') }}>
                   {n.label}
                   {n.badge && <span style={{ display: 'inline-block', background: '#0055cc', color: '#fff', fontSize: 9, padding: '1px 6px', borderRadius: 10, fontWeight: 700, marginLeft: 6, verticalAlign: 'middle' }}>{n.badge}</span>}
                 </div>
@@ -263,6 +268,26 @@ export default function CatalogPage() {
           )}
 
           <div style={{ maxWidth: 1280, margin: '0 auto', padding: '28px 20px' }}>
+            {/* Filter chips ประเภทเสื้อ */}
+            {(activeNav === 'new' || activeNav === 'other') && shirtTypes.length > 0 && (
+              <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', marginBottom: 18, overflowX: 'auto', paddingBottom: 4 }}>
+                <button
+                  onClick={() => setSelectedShirtType('all')}
+                  style={{ padding: '6px 14px', borderRadius: 20, fontSize: 12, fontWeight: 600, cursor: 'pointer', border: 'none', background: selectedShirtType === 'all' ? '#0055cc' : 'rgba(255,255,255,0.08)', color: selectedShirtType === 'all' ? '#fff' : 'rgba(255,255,255,0.55)', whiteSpace: 'nowrap', transition: 'all .18s' }}>
+                  ทั้งหมด ({shirts.filter(s => s.category === activeNav).length})
+                </button>
+                {shirtTypes.map(t => {
+                  const count = shirts.filter(s => s.category === activeNav && s.shirt_type === t.slug).length
+                  return (
+                    <button key={t.id}
+                      onClick={() => setSelectedShirtType(t.slug)}
+                      style={{ padding: '6px 14px', borderRadius: 20, fontSize: 12, fontWeight: 600, cursor: 'pointer', border: 'none', background: selectedShirtType === t.slug ? '#0055cc' : 'rgba(255,255,255,0.08)', color: selectedShirtType === t.slug ? '#fff' : 'rgba(255,255,255,0.55)', whiteSpace: 'nowrap', transition: 'all .18s' }}>
+                      {t.icon} {t.name} ({count})
+                    </button>
+                  )
+                })}
+              </div>
+            )}
             {canDrag && (
               <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.35)', marginBottom: 14, display: 'flex', alignItems: 'center', gap: 6 }}>
                 <span style={{ fontSize: 14 }}>☰</span> กดค้างที่การ์ดแล้วลากเพื่อเรียงลำดับ — บันทึกอัตโนมัติ
@@ -332,7 +357,7 @@ export default function CatalogPage() {
 
       {/* Modals */}
       {showAdd && (
-        <ShirtModal collars={collars} prodTypes={prodTypes} fabricTypes={fabricTypes}
+        <ShirtModal collars={collars} prodTypes={prodTypes} fabricTypes={fabricTypes} shirtTypes={shirtTypes}
           category={activeNav === 'all' ? 'new' : activeNav}
           onSave={async (data, imgFile) => {
             let image_url = null
@@ -343,7 +368,7 @@ export default function CatalogPage() {
           onClose={() => setShowAdd(false)} />
       )}
       {editShirt && (
-        <ShirtModal initial={editShirt} collars={collars} prodTypes={prodTypes} fabricTypes={fabricTypes}
+        <ShirtModal initial={editShirt} collars={collars} prodTypes={prodTypes} fabricTypes={fabricTypes} shirtTypes={shirtTypes}
           onSave={async (data, imgFile) => {
             let image_url = editShirt.image_url
             if (imgFile) {
@@ -534,6 +559,11 @@ function ShirtCard({ shirt, isAdmin, canDrag, isDragging, isDragOver, onDragStar
         <div style={{ position: 'absolute', top: 8, left: 8, display: 'flex', flexDirection: 'column', gap: 4 }}>
           {shirt.category === 'new' && <span style={{ background: '#0055cc', color: '#fff', fontSize: 9, padding: '2px 7px', borderRadius: 10, fontWeight: 700 }}>NEW</span>}
           {shirt.is_promo && <span style={{ background: '#e07800', color: '#fff', fontSize: 9, padding: '2px 7px', borderRadius: 10, fontWeight: 700 }}>โปร</span>}
+          {shirt.shirt_type && shirtTypes.find(t => t.slug === shirt.shirt_type) && (
+            <span style={{ background: 'rgba(0,85,204,0.75)', color: '#fff', fontSize: 8, padding: '2px 6px', borderRadius: 10, fontWeight: 700 }}>
+              {shirtTypes.find(t => t.slug === shirt.shirt_type)?.icon} {shirtTypes.find(t => t.slug === shirt.shirt_type)?.name}
+            </span>
+          )}
         </div>
       </div>
       <div style={{ padding: '13px 14px 12px' }}>
@@ -599,13 +629,13 @@ function PhotoCard({ shirt, isAdmin, onEdit, onDelete, onImageClick }: {
 }
 
 /* ── Shirt Modal ── */
-function ShirtModal({ initial, collars, prodTypes, fabricTypes, category, onSave, onClose }: {
-  initial?: Shirt, collars: Collar[], prodTypes: ProductType[], fabricTypes: FabricType[],
+function ShirtModal({ initial, collars, prodTypes, fabricTypes, shirtTypes, category, onSave, onClose }: {
+  initial?: Shirt, collars: Collar[], prodTypes: ProductType[], fabricTypes: FabricType[], shirtTypes: ShirtType[],
   category?: string,
   onSave: (data: Partial<Shirt>, img: string | null) => Promise<void>,
   onClose: () => void
 }) {
-  const [f, setF] = useState({ name: initial?.name || '', collar_type: initial?.collar_type || '', product_type: initial?.product_type || 'ไมโครโพลีเอสเตอร์ (Micro Polyester)', price: initial?.price || 0, category: initial?.category || category || 'new', is_promo: initial?.is_promo || false })
+  const [f, setF] = useState({ name: initial?.name || '', collar_type: initial?.collar_type || '', product_type: initial?.product_type || 'ไมโครโพลีเอสเตอร์ (Micro Polyester)', price: initial?.price || 0, category: initial?.category || category || 'new', is_promo: initial?.is_promo || false, shirt_type: (initial as any)?.shirt_type || '' })
   const [imgPreview, setImgPreview] = useState<string | null>(initial?.image_url || null)
   const [newImgData, setNewImgData] = useState<string | null>(null)
   const [ov, setOv] = useState(false)
@@ -738,6 +768,14 @@ function ShirtModal({ initial, collars, prodTypes, fabricTypes, category, onSave
                 <option value="photo">ภาพถ่ายงานจริง</option>
               </select>
             </div>
+            {(f.category === 'new' || f.category === 'other') && shirtTypes.length > 0 && (
+              <div><div className="section-label">ประเภทเสื้อ</div>
+                <select className="select-d" value={f.shirt_type} onChange={(e) => set('shirt_type', e.target.value)}>
+                  <option value="">-- เลือกประเภท --</option>
+                  {shirtTypes.map(t => <option key={t.id} value={t.slug}>{t.icon} {t.name}</option>)}
+                </select>
+              </div>
+            )}
             <label style={{ display: 'flex', alignItems: 'center', gap: 8, cursor: 'pointer' }}>
               <input type="checkbox" checked={f.is_promo} onChange={(e) => set('is_promo', e.target.checked)} />
               <span style={{ fontSize: 13 }}>แสดงในหมวดโปรโมชั่น</span>
