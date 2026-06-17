@@ -385,7 +385,7 @@ export default function CatalogPage() {
           onClose={() => setEditShirt(null)} />
       )}
       {showSettings && (
-        <SettingsModal collars={collars} setCollars={setCollars} prodTypes={prodTypes} setProdTypes={setProdTypes} fabricTypes={fabricTypes} setFabricTypes={setFabricTypes} promotions={promotions} setPromotions={setPromotions} shippingRules={shippingRules} setShippingRules={setShippingRules}
+        <SettingsModal collars={collars} setCollars={setCollars} prodTypes={prodTypes} setProdTypes={setProdTypes} fabricTypes={fabricTypes} setFabricTypes={setFabricTypes} promotions={promotions} setPromotions={setPromotions} shippingRules={shippingRules} setShippingRules={setShippingRules} shirtTypes={shirtTypes} setShirtTypes={setShirtTypes}
           onClose={() => setShowSettings(false)} notify={notify} />
       )}
       {showContact && <ContactModal onClose={() => setShowContact(false)} />}
@@ -796,19 +796,21 @@ function ShirtModal({ initial, collars, prodTypes, fabricTypes, shirtTypes, cate
 }
 
 /* ── Settings Modal ── */
-function SettingsModal({ collars, setCollars, prodTypes, setProdTypes, fabricTypes, setFabricTypes, promotions, setPromotions, shippingRules, setShippingRules, onClose, notify }: {
+function SettingsModal({ collars, setCollars, prodTypes, setProdTypes, fabricTypes, setFabricTypes, promotions, setPromotions, shippingRules, setShippingRules, shirtTypes, setShirtTypes, onClose, notify }: {
   collars: Collar[], setCollars: React.Dispatch<React.SetStateAction<Collar[]>>,
   prodTypes: ProductType[], setProdTypes: React.Dispatch<React.SetStateAction<ProductType[]>>,
   fabricTypes: FabricType[], setFabricTypes: React.Dispatch<React.SetStateAction<FabricType[]>>,
   promotions: Promotion[], setPromotions: React.Dispatch<React.SetStateAction<Promotion[]>>,
   shippingRules: ShippingRule[], setShippingRules: React.Dispatch<React.SetStateAction<ShippingRule[]>>,
+  shirtTypes: ShirtType[], setShirtTypes: React.Dispatch<React.SetStateAction<ShirtType[]>>,
   onClose: () => void, notify: (m: string, t?: 'ok' | 'err') => void
 }) {
-  const [tab, setTab] = useState<'collar'|'prod'|'fabric'|'price'|'promo'|'ship'>('collar')
+  const [tab, setTab] = useState<'collar'|'prod'|'fabric'|'shirt-type'|'price'|'promo'|'ship'>('collar')
   const TABS = [
     ['collar', `ประเภทคอเสื้อ (${collars.length})`],
     ['prod', `ประเภทสินค้า (${prodTypes.length})`],
     ['fabric', `ประเภทเนื้อผ้า (${fabricTypes.length})`],
+    ['shirt-type', `👕 ประเภทเสื้อ (${shirtTypes.length})`],
     ['price', 'ราคาคอเสื้อ'],
     ['promo', 'โปรโมชั่น'],
     ['ship', 'ค่าขนส่ง'],
@@ -828,10 +830,87 @@ function SettingsModal({ collars, setCollars, prodTypes, setProdTypes, fabricTyp
         {tab === 'collar' && <SupabaseTypeList table="collars" items={collars} setItems={setCollars} ph="เพิ่มประเภทคอเสื้อ..." notify={notify} />}
         {tab === 'prod' && <SupabaseTypeList table="product_types" items={prodTypes} setItems={setProdTypes} ph="เพิ่มประเภทสินค้า..." notify={notify} />}
         {tab === 'fabric' && <SupabaseTypeList table="fabric_types" items={fabricTypes} setItems={setFabricTypes as any} ph="เพิ่มประเภทเนื้อผ้า..." notify={notify} />}
+        {tab === 'shirt-type' && <ShirtTypeManager shirtTypes={shirtTypes} setShirtTypes={setShirtTypes} notify={notify} />}
         {tab === 'price' && <CollarPriceList collars={collars as CollarWithPrice[]} setCollars={setCollars as any} notify={notify} />}
         {tab === 'promo' && <PromotionList promotions={promotions} setPromotions={setPromotions} notify={notify} />}
         {tab === 'ship' && <ShippingList shippingRules={shippingRules} setShippingRules={setShippingRules} notify={notify} />}
       </div>
+    </div>
+  )
+}
+
+function ShirtTypeManager({ shirtTypes, setShirtTypes, notify }: {
+  shirtTypes: ShirtType[], setShirtTypes: React.Dispatch<React.SetStateAction<ShirtType[]>>,
+  notify: (m: string, t?: 'ok' | 'err') => void
+}) {
+  const [newName, setNewName] = useState('')
+  const [newSlug, setNewSlug] = useState('')
+  const [newIcon, setNewIcon] = useState('👕')
+  const [editId, setEditId] = useState<string | null>(null)
+  const [editName, setEditName] = useState('')
+  const [editIcon, setEditIcon] = useState('')
+
+  const add = async () => {
+    if (!newName.trim() || !newSlug.trim()) return
+    const { data } = await db.from('shirt_types').insert([{ name: newName.trim(), slug: newSlug.trim(), icon: newIcon, sort_order: shirtTypes.length + 1 }]).select().single()
+    if (data) { setShirtTypes(p => [...p, data as ShirtType]); setNewName(''); setNewSlug(''); setNewIcon('👕'); notify('เพิ่มประเภทเสื้อแล้ว') }
+    else notify('เกิดข้อผิดพลาด', 'err')
+  }
+
+  const save = async (id: string) => {
+    await db.from('shirt_types').update({ name: editName, icon: editIcon }).eq('id', id)
+    setShirtTypes(p => p.map(t => t.id === id ? { ...t, name: editName, icon: editIcon } : t))
+    setEditId(null); notify('บันทึกแล้ว')
+  }
+
+  const remove = async (id: string) => {
+    await db.from('shirt_types').delete().eq('id', id)
+    setShirtTypes(p => p.filter(t => t.id !== id)); notify('ลบแล้ว')
+  }
+
+  const move = async (idx: number, dir: -1 | 1) => {
+    const arr = [...shirtTypes]
+    const swap = idx + dir
+    if (swap < 0 || swap >= arr.length) return
+    ;[arr[idx], arr[swap]] = [arr[swap], arr[idx]]
+    arr.forEach((t, i) => { t.sort_order = i + 1 })
+    setShirtTypes(arr)
+    await Promise.all(arr.map((t, i) => db.from('shirt_types').update({ sort_order: i + 1 }).eq('id', t.id)))
+  }
+
+  return (
+    <div>
+      <div style={{ display: 'flex', gap: 8, marginBottom: 16, flexWrap: 'wrap' }}>
+        <input className="input-d" style={{ width: 40 }} value={newIcon} onChange={e => setNewIcon(e.target.value)} placeholder="🎽" />
+        <input className="input-d" style={{ flex: 1, minWidth: 100 }} value={newName} onChange={e => setNewName(e.target.value)} placeholder="ชื่อประเภท เช่น เสื้อบอล" />
+        <input className="input-d" style={{ flex: 1, minWidth: 80 }} value={newSlug} onChange={e => setNewSlug(e.target.value)} placeholder="slug: football" />
+        <button className="btn-red sm" onClick={add}>+ เพิ่ม</button>
+      </div>
+      <div style={{ fontSize: 11, color: 'rgba(255,255,255,0.35)', marginBottom: 12 }}>☰ ลากเพื่อเรียงลำดับ | ปุ่ม ↑↓ สำหรับมือถือ</div>
+      {shirtTypes.map((t, idx) => (
+        <div key={t.id} style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '8px 0', borderBottom: '1px solid rgba(255,255,255,0.06)' }}>
+          <span style={{ fontSize: 18, width: 28 }}>{t.icon}</span>
+          {editId === t.id ? (
+            <>
+              <input className="input-d" style={{ width: 32 }} value={editIcon} onChange={e => setEditIcon(e.target.value)} />
+              <input className="input-d" style={{ flex: 1 }} value={editName} onChange={e => setEditName(e.target.value)} />
+              <button className="btn-red sm" onClick={() => save(t.id)}>💾</button>
+              <button className="btn-outline sm" onClick={() => setEditId(null)}>ยกเลิก</button>
+            </>
+          ) : (
+            <>
+              <div style={{ flex: 1 }}>
+                <div style={{ fontSize: 13, fontWeight: 600 }}>{t.name}</div>
+                <div style={{ fontSize: 10, color: 'rgba(255,255,255,0.3)' }}>slug: {t.slug} · ลำดับ {t.sort_order}</div>
+              </div>
+              <button className="btn-ghost" onClick={() => move(idx, -1)}>↑</button>
+              <button className="btn-ghost" onClick={() => move(idx, 1)}>↓</button>
+              <button className="btn-outline sm" onClick={() => { setEditId(t.id); setEditName(t.name); setEditIcon(t.icon) }}>แก้ไข</button>
+              <button className="btn-outline sm" style={{ color: '#ff6b6b', borderColor: '#ff6b6b' }} onClick={() => remove(t.id)}>ลบ</button>
+            </>
+          )}
+        </div>
+      ))}
     </div>
   )
 }
