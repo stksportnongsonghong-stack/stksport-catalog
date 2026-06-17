@@ -561,9 +561,9 @@ function ShirtCard({ shirt, isAdmin, canDrag, isDragging, isDragOver, shirtTypes
         <div style={{ position: 'absolute', top: 8, left: 8, display: 'flex', flexDirection: 'column', gap: 4 }}>
           {shirt.category === 'new' && <span style={{ background: '#0055cc', color: '#fff', fontSize: 9, padding: '2px 7px', borderRadius: 10, fontWeight: 700 }}>NEW</span>}
           {shirt.is_promo && <span style={{ background: '#e07800', color: '#fff', fontSize: 9, padding: '2px 7px', borderRadius: 10, fontWeight: 700 }}>โปร</span>}
-          {shirt.shirt_type && shirtTypes.find(t => t.slug === shirt.shirt_type) && (
+          {shirt.shirt_type && shirtTypes?.find(t => t.slug === shirt.shirt_type) && (
             <span style={{ background: 'rgba(0,85,204,0.75)', color: '#fff', fontSize: 8, padding: '2px 6px', borderRadius: 10, fontWeight: 700 }}>
-              {shirtTypes.find(t => t.slug === shirt.shirt_type)?.icon} {shirtTypes.find(t => t.slug === shirt.shirt_type)?.name}
+              {shirtTypes?.find(t => t.slug === shirt.shirt_type)?.icon} {shirtTypes?.find(t => t.slug === shirt.shirt_type)?.name}
             </span>
           )}
         </div>
