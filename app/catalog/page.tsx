@@ -273,7 +273,7 @@ export default function CatalogPage() {
               <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', marginBottom: 18, overflowX: 'auto', paddingBottom: 4 }}>
                 <button
                   onClick={() => setSelectedShirtType('all')}
-                  style={{ padding: '6px 14px', borderRadius: 20, fontSize: 12, fontWeight: 600, cursor: 'pointer', border: 'none', background: selectedShirtType === 'all' ? '#0055cc' : 'rgba(255,255,255,0.08)', color: selectedShirtType === 'all' ? '#fff' : 'rgba(255,255,255,0.55)', whiteSpace: 'nowrap', transition: 'all .18s' }}>
+                  style={{ padding: '6px 14px', borderRadius: 20, fontSize: 12, fontWeight: 600, cursor: 'pointer', border: '1.5px solid', borderColor: selectedShirtType === 'all' ? '#0055cc' : '#ddd', background: selectedShirtType === 'all' ? '#0055cc' : '#fff', color: selectedShirtType === 'all' ? '#fff' : '#222', whiteSpace: 'nowrap', transition: 'all .18s' }}>
                   ทั้งหมด ({shirts.filter(s => s.category === activeNav).length})
                 </button>
                 {shirtTypes.map(t => {
@@ -281,7 +281,7 @@ export default function CatalogPage() {
                   return (
                     <button key={t.id}
                       onClick={() => setSelectedShirtType(t.slug)}
-                      style={{ padding: '6px 14px', borderRadius: 20, fontSize: 12, fontWeight: 600, cursor: 'pointer', border: 'none', background: selectedShirtType === t.slug ? '#0055cc' : 'rgba(255,255,255,0.08)', color: selectedShirtType === t.slug ? '#fff' : 'rgba(255,255,255,0.55)', whiteSpace: 'nowrap', transition: 'all .18s' }}>
+                      style={{ padding: '6px 14px', borderRadius: 20, fontSize: 12, fontWeight: 600, cursor: 'pointer', border: '1.5px solid', borderColor: selectedShirtType === t.slug ? '#0055cc' : '#ddd', background: selectedShirtType === t.slug ? '#0055cc' : '#fff', color: selectedShirtType === t.slug ? '#fff' : '#222', whiteSpace: 'nowrap', transition: 'all .18s' }}>
                       {t.icon} {t.name} ({count})
                     </button>
                   )
