@@ -325,6 +325,7 @@ export default function CatalogPage() {
                     isDragging={dragId === s.id}
                     isDragOver={dragOverId === s.id}
                     canDrag={canDrag}
+                    shirtTypes={shirtTypes}
                     onDragStart={() => handleDragStart(s.id)}
                     onDragOver={() => handleDragOver(s.id)}
                     onDragEnd={handleDragEnd}
@@ -499,9 +500,10 @@ function BannerSection({ banners, setBanners, isAdmin, notify }: {
 }
 
 /* ── Shirt Card ── */
-function ShirtCard({ shirt, isAdmin, canDrag, isDragging, isDragOver, onDragStart, onDragOver, onDragEnd, onEdit, onDelete, onDupe, onContact, onCalculate, onImageClick }: {
+function ShirtCard({ shirt, isAdmin, canDrag, isDragging, isDragOver, shirtTypes, onDragStart, onDragOver, onDragEnd, onEdit, onDelete, onDupe, onContact, onCalculate, onImageClick }: {
   shirt: Shirt, isAdmin: boolean,
   canDrag?: boolean, isDragging?: boolean, isDragOver?: boolean,
+  shirtTypes?: ShirtType[],
   onDragStart?: () => void, onDragOver?: () => void, onDragEnd?: () => void,
   onEdit: () => void, onDelete: () => void, onDupe: () => void,
   onContact?: () => void, onCalculate?: (id: string) => void, onImageClick?: (url: string) => void
