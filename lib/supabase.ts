@@ -17,6 +17,8 @@ export type Shirt = {
   category: string
   is_promo: boolean
   image_url: string | null
+  sort_order: number
+  shirt_type: string
   created_at: string
   updated_at: string
 }
