@@ -620,7 +620,7 @@ function ShirtCard({ shirt, isAdmin, canDrag, isDragging, isDragOver, shirtTypes
         )}
         {/* ประเภทเสื้อ ซ้ายล่าง NEW */}
         {shirt.shirt_type && shirtTypes?.find(t => t.slug === shirt.shirt_type) && (
-          <div style={{ position: 'absolute', top: 18, left: 5 }}>
+          <div style={{ position: 'absolute', top: 22, left: 5 }}>
             <span style={{ background: 'rgba(0,0,0,0.6)', color: '#fff', fontSize: 7, padding: '1px 5px', borderRadius: 6, fontWeight: 600 }}>
               {shirtTypes?.find(t => t.slug === shirt.shirt_type)?.icon} {shirtTypes?.find(t => t.slug === shirt.shirt_type)?.name}
             </span>
