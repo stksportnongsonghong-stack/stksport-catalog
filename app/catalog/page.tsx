@@ -606,26 +606,16 @@ function ShirtCard({ shirt, isAdmin, canDrag, isDragging, isDragOver, shirtTypes
         {shirt.image_url && (
           <div style={{ position: 'absolute', bottom: 6, right: 6, background: 'rgba(0,0,0,0.5)', borderRadius: 6, padding: '3px 7px', fontSize: 11, color: 'rgba(255,255,255,0.7)', pointerEvents: 'none' }}>🔍</div>
         )}
-        {/* NEW ซ้ายบน */}
-        {shirt.category === 'new' && (
-          <div style={{ position: 'absolute', top: 5, left: 5 }}>
-            <span style={{ background: '#0055cc', color: '#fff', fontSize: 7, padding: '1px 5px', borderRadius: 6, fontWeight: 700, letterSpacing: 0.5 }}>NEW</span>
-          </div>
-        )}
-        {/* โปร ขวาบน */}
-        {shirt.is_promo && (
-          <div style={{ position: 'absolute', top: 5, right: 5 }}>
-            <span style={{ background: '#e07800', color: '#fff', fontSize: 7, padding: '1px 5px', borderRadius: 6, fontWeight: 700 }}>โปร</span>
-          </div>
-        )}
-        {/* ประเภทเสื้อ ซ้ายล่าง NEW */}
-        {shirt.shirt_type && shirtTypes?.find(t => t.slug === shirt.shirt_type) && (
-          <div style={{ position: 'absolute', top: 22, left: 5 }}>
+        {/* Badge แนวนอน: NEW, โปร, ประเภทเสื้อ */}
+        <div style={{ position: 'absolute', top: 5, left: 5, right: 5, display: 'flex', flexDirection: 'row', gap: 3, flexWrap: 'wrap' }}>
+          {shirt.category === 'new' && <span style={{ background: '#0055cc', color: '#fff', fontSize: 7, padding: '1px 5px', borderRadius: 6, fontWeight: 700, letterSpacing: 0.5 }}>NEW</span>}
+          {shirt.is_promo && <span style={{ background: '#e07800', color: '#fff', fontSize: 7, padding: '1px 5px', borderRadius: 6, fontWeight: 700 }}>โปร</span>}
+          {shirt.shirt_type && shirtTypes?.find(t => t.slug === shirt.shirt_type) && (
             <span style={{ background: 'rgba(0,0,0,0.6)', color: '#fff', fontSize: 7, padding: '1px 5px', borderRadius: 6, fontWeight: 600 }}>
               {shirtTypes?.find(t => t.slug === shirt.shirt_type)?.icon} {shirtTypes?.find(t => t.slug === shirt.shirt_type)?.name}
             </span>
-          </div>
-        )}
+          )}
+        </div>
       </div>
       <div style={{ padding: '13px 14px 12px' }}>
         {shirt.category === 'fabric' ? (
