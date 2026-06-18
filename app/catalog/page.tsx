@@ -269,18 +269,18 @@ export default function CatalogPage() {
           <div style={{ maxWidth: 1280, margin: '0 auto', padding: '28px 20px' }}>
             {(activeNav === 'new' || activeNav === 'other') && shirtTypes.length > 0 ? (
               /* Layout: sidebar แนวตั้งซ้าย + grid ขวา */
-              <div style={{ display: 'flex', gap: 12, alignItems: 'flex-start' }}>
-                {/* Sidebar ประเภทเสื้อ — desktop: 168px, mobile: ~20% */}
-                <div style={{ width: 'clamp(80px, 20%, 168px)', flexShrink: 0, display: 'flex', flexDirection: 'column', gap: 4 }}>
+              <div style={{ display: 'flex', gap: 'clamp(6px, 2vw, 16px)', alignItems: 'flex-start' }}>
+                {/* Sidebar ประเภทเสื้อ — responsive 1/5 ของหน้าจอ */}
+                <div style={{ width: '20%', minWidth: 60, maxWidth: 168, flexShrink: 0, display: 'flex', flexDirection: 'column', gap: 'clamp(2px, 0.5vw, 4px)' }}>
                   <button onClick={() => setSelectedShirtType('all')}
-                    style={{ padding: 'clamp(4px,1vw,8px) clamp(6px,1.5vw,12px)', borderRadius: 8, fontSize: 'clamp(9px,1.5vw,12px)', fontWeight: 600, cursor: 'pointer', border: '1.5px solid', textAlign: 'left', borderColor: selectedShirtType === 'all' ? '#0055cc' : '#ddd', background: selectedShirtType === 'all' ? '#0055cc' : '#fff', color: selectedShirtType === 'all' ? '#fff' : '#222', transition: 'all .18s', lineHeight: 1.3, wordBreak: 'keep-all' }}>
+                    style={{ padding: 'clamp(3px,0.8vw,8px) clamp(4px,1vw,10px)', borderRadius: 'clamp(4px,1vw,8px)', fontSize: 'clamp(8px,2vw,12px)', fontWeight: 600, cursor: 'pointer', border: '1.5px solid', textAlign: 'left', borderColor: selectedShirtType === 'all' ? '#0055cc' : '#ddd', background: selectedShirtType === 'all' ? '#0055cc' : '#fff', color: selectedShirtType === 'all' ? '#fff' : '#222', transition: 'all .18s', lineHeight: 1.4, wordBreak: 'break-word', width: '100%' }}>
                     🗂 ทั้งหมด ({shirts.filter(s => s.category === activeNav).length})
                   </button>
                   {shirtTypes.map(t => {
                     const count = shirts.filter(s => s.category === activeNav && s.shirt_type === t.slug).length
                     return (
                       <button key={t.id} onClick={() => setSelectedShirtType(t.slug)}
-                        style={{ padding: 'clamp(4px,1vw,8px) clamp(6px,1.5vw,12px)', borderRadius: 8, fontSize: 'clamp(9px,1.5vw,12px)', fontWeight: 600, cursor: 'pointer', border: '1.5px solid', textAlign: 'left', borderColor: selectedShirtType === t.slug ? '#0055cc' : '#ddd', background: selectedShirtType === t.slug ? '#0055cc' : '#fff', color: selectedShirtType === t.slug ? '#fff' : '#222', transition: 'all .18s', lineHeight: 1.3, wordBreak: 'keep-all' }}>
+                        style={{ padding: 'clamp(3px,0.8vw,8px) clamp(4px,1vw,10px)', borderRadius: 'clamp(4px,1vw,8px)', fontSize: 'clamp(8px,2vw,12px)', fontWeight: 600, cursor: 'pointer', border: '1.5px solid', textAlign: 'left', borderColor: selectedShirtType === t.slug ? '#0055cc' : '#ddd', background: selectedShirtType === t.slug ? '#0055cc' : '#fff', color: selectedShirtType === t.slug ? '#fff' : '#222', transition: 'all .18s', lineHeight: 1.4, wordBreak: 'break-word', width: '100%' }}>
                         {t.icon} {t.name} ({count})
                       </button>
                     )
