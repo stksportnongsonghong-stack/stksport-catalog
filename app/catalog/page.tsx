@@ -606,7 +606,7 @@ function ShirtCard({ shirt, isAdmin, canDrag, isDragging, isDragOver, shirtTypes
         {shirt.image_url && (
           <div style={{ position: 'absolute', bottom: 6, right: 6, background: 'rgba(0,0,0,0.5)', borderRadius: 6, padding: '3px 7px', fontSize: 11, color: 'rgba(255,255,255,0.7)', pointerEvents: 'none' }}>🔍</div>
         )}
-        <div style={{ position: 'absolute', top: 5, left: 5, display: 'flex', flexDirection: 'column', gap: 2 }}>
+        <div style={{ position: 'absolute', top: 5, left: 5, display: 'flex', flexDirection: 'row', flexWrap: 'wrap', gap: 2, maxWidth: '90%' }}>
           {shirt.category === 'new' && <span style={{ background: '#0055cc', color: '#fff', fontSize: 7, padding: '1px 5px', borderRadius: 6, fontWeight: 700, letterSpacing: 0.5 }}>NEW</span>}
           {shirt.is_promo && <span style={{ background: '#e07800', color: '#fff', fontSize: 7, padding: '1px 5px', borderRadius: 6, fontWeight: 700 }}>โปร</span>}
           {shirt.shirt_type && shirtTypes?.find(t => t.slug === shirt.shirt_type) && (
